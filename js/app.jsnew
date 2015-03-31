@@ -6,8 +6,7 @@ var Enemy = function(spriteImg) {
 
 // just want random numbers 1-3 for lanes enemy will use
 // col set to zero so enemy doesn't appear on screen till time
-    this.lane = Math.round(2*Math.random()+1);
-    this.row = this.lane;
+    this.row = 150* Math.floor(Math.round(2*Math.random()+1));
     this.col = 0    ;
     
 // used for telling enemy should be on screen
@@ -34,21 +33,21 @@ Enemy.prototype.update = function(dt) {
 // reset the row and apply a new random row to enemy
     if (this.col > 4) {
         this.col=0;
-        this.lane = Math.round(2*Math.random()+1);
+        this.row = Math.round(2*Math.random()+1);
     }
 // temp debug to console.log()
-//    console.log(this.lane + "," + this.col +": " + dt);
+    console.log(this.row + "," + this.col +": " + dt);
 };
 
 // Draw the enemy on the screen, required method for game
 
 Enemy.prototype.render = function() {
     var i;
-     
+    var steps =1;  // used for adjusting how many pixels 
     for (i = 0; i<allEnemies.length; i+=1) {
-        this.x += allEnemies[i].col *150;
-        this.y += allEnemies[i].row * 101;
-    }
+    this.x += allEnemies[i].col;
+    this.y += allEnemies[i].row * 101;
+}
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
