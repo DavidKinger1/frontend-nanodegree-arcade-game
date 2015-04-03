@@ -1,13 +1,27 @@
 // Enemies our player must avoid
-var Enemy = function(spriteImg) {
-
+var Enemy = function(spriteImg, eNum) {
 // Random enemy speed generator
-    this.speedMulti = (1.0 * Math.random()); 
+    this.speedMulti = (8* Math.random())/ 1000; 
+    switch (eNum) {
+        case 0:
+            this.enemyRow = 65;
+            break;
+        case 1:
+            this.enemyRow = 140;
+            //alert(this.enemyRow = 145);
+            break;
+        case 2:
+            this.enemyRow = 225;
+            //alert(this.enemyRow = 225);
+        default:
+            break;
+        }
+    
+
 
 // just want random numbers 1-3 for lanes enemy will use
 // col set to zero so enemy doesn't appear on screen till time
-    this.lane = Math.round(2*Math.random()+1);
-    this.row = this.lane;
+    this.row = this.enemyRow;
     this.col = 0    ;
     
 // used for telling enemy should be on screen
@@ -20,7 +34,7 @@ var Enemy = function(spriteImg) {
         spriteImg = "images/enemy-bug.png";
     }
     this.sprite = spriteImg ;
-}
+};
 
 // Update the enemy's position ajusting for different cpu speeds
 // Parameter: dt, a time delta between ticks
@@ -28,13 +42,14 @@ var Enemy = function(spriteImg) {
 Enemy.prototype.update = function(dt) {
 
 // update the position the enemy is
-    this.col += dt;
+    this.col += dt - this.speedMulti;
 
 // check if enemy off screen and reset poition to 0
 // reset the row and apply a new random row to enemy
     if (this.col > 4) {
         this.col=0;
-        this.lane = Math.round(2*Math.random()+1);
+        this.speedMulti = (15* Math.random())/ 1000; 
+        //this.lane = Math.round(2*Math.random()+1);
     }
 // temp debug to console.log()
 //    console.log(this.lane + "," + this.col +": " + dt);
@@ -43,14 +58,11 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 
 Enemy.prototype.render = function() {
-    var i;
-     
-    for (i = 0; i<allEnemies.length; i+=1) {
-        this.x += allEnemies[i].col *150;
-        this.y += allEnemies[i].row * 101;
-    }
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+  var x, y ;
+        x = this.col * 150;
+        y = this.enemyRow;
+    ctx.drawImage(Resources.get(this.sprite), x, y);
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -60,10 +72,10 @@ var Player = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     //Use current Row and Column * 101 to move player
-    this.currentCol = 1;
+    this.currentCol = 2;
     this.currentRow = 4;
-    this.x = player.currentCol * 101;
-    this.y = player.currentRow * 101;
+    this.x = this.currentCol * 101;
+    this.y = this.currentRow * 101;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-boy.png';
@@ -115,7 +127,7 @@ Player.prototype.handleInput = function(keyPress) {
 var allEnemies = [], player = {};
 var i=0;
 for (i; i < 3; i+=1) {
-    allEnemies[i] = new Enemy('images/enemy-bug.png');
+    allEnemies[i] = new Enemy('images/enemy-bug.png', i);
 }
 player = new Player();
 
