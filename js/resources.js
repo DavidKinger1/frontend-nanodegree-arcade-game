@@ -98,16 +98,25 @@
     function onReady(func) {
         readyCallbacks.push(func);
     }
-
     /* This object defines the publicly accessible functions available to
      * developers by creating a global Resources object.
      */
+     // Box type collision test
+function isColliding (enemy,player){
+    return !(enemy.right< player.left ||
+            player.right < enemy.left ||
+            enemy.bottom < player.top ||
+            player.bottom < enemy.top);
+};
+
     window.Resources = {
         load: load,
         get: get,
         onReady: onReady,
         isReady: isReady,
-    // added a level property to increase speed
-        gameLevel: 10
+     // added a level property to increase speed
+        gameLevel: 10,
+        isColliding: isColliding
     };
+    
 })();

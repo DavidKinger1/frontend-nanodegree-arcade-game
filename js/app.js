@@ -22,17 +22,16 @@ var Enemy = function(spriteImg, eNum) {
     // The image/sprite for our enemies, this uses
     // temp image statement
     if( spriteImg ==="") {
-        spriteImg = "images/enemy-bug.png";
+        spriteImg = 'images/enemy-bug.png';
     }
     this.sprite = spriteImg ;
     // dimensions of the enemy sprite for collision detection
     // add postion properties
-    this.width = spriteImg.width;
-    this.height = spriteImg.height;
     this.left = 0;
     this.right = this.width;
     this.bottom = this.height + this.row;
     this.top = this.row;
+    
 };
 
 // Update the enemy's position ajusting for different cpu speeds
@@ -74,15 +73,15 @@ var Player = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-boy.png';
-    // dimensions of the enemy sprite for collision detection
-    // add postion properties
-    this.width = spriteImg.width;
-    this.height = spriteImg.height;
+ 
+     //this.width = this.imageData.width;
+    //this.height = this.imageData.height;
     this.left = 0;
-    this.right = this.width;
-    this.bottom = this.height + this.row;
-    this.top = this.row;
+    //this.right = this.imageData.width;
+    //this.bottom = this.imageData.height + this.y;
+    this.top = this.y;
 }
+
 //reset player to start position
 Player.prototype.reset = function () {
     // TODO: Add Reset code
@@ -90,29 +89,12 @@ Player.prototype.reset = function () {
 
 // Update the players position, required method for game
 Player.prototype.update = function() {
-    this.x += this.col;
-    this.y += this.row;
     this.bottom = this.y + this.height;
     this.top = this.y;
     this.right = this.x + this.width;
     this.left = this.x;
+   // console.log(this.top + " " + this.bottom + " " + this.left + " " + this.right)
 };
-// Box type collision test
-Enemy.prototype.isColliding = function(enemy,player){
-    return !(enemy.right< player.left ||
-            player.right < enemy.left ||
-            enemy.bottom < player.top ||
-            plqyer.bottom < enemy.top);
-};
-
-// if enemy and player touch then reset player to starting position
-Enemy.prototype.checkCollisions = function(enemy, player) {
-    if (this.isColliding(enemy, player)) {
-        cpnsole.log('collision!');
-        // debugger;
-        player.reset();
-    }
-}
 
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
@@ -153,6 +135,18 @@ Player.prototype.handleInput = function(keyPress) {
         allEnemies[i] = new Enemy('images/enemy-bug.png', i%3);
     }
     player = new Player();
+    
+     player.imageData = new Image();
+     player.imageData.src = 'images/char-boy.png';
+     player.width = player.imageData.width;
+     player.height = player.imageData.height;
+    
+     var enemy = allEnemies[0];
+     enemy.imageData = new Image();
+     enemy.imageData.src = 'images/enemy-bug.png';
+     enemy.width = enemy.imageData.width;
+     enemy.height = enemy.imageData.height;
+    
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
