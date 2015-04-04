@@ -106,6 +106,8 @@
         load: load,
         get: get,
         onReady: onReady,
-        isReady: isReady
+        isReady: isReady,
+    // added a level property to increase speed
+        gameLevel: 10
     };
 })();
