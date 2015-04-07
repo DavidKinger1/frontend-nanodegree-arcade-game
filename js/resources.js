@@ -25,7 +25,7 @@
         } else {
             /* The developer did not pass an array to this function,
              * assume the value is a string and call our image loader
-             * directly.
+  Col           * directly.
              */
             _load(urlOrArr);
         }
@@ -99,6 +99,23 @@
         readyCallbacks.push(func);
     }
 
+ //Code to evaluate the separation of player and Enemy
+function isColliding (enemy,player){
+
+    //Check Gaps and row of player & enemy
+    var posDistance = player.left - enemy.right;
+    var leftGaplength = Math.abs(player.left - enemy.right);
+    var rightGaplength = Math.abs(enemy.left - player.right);
+
+    //console.log(" Left: " + leftGaplength + " Right: " + rightGaplength + " Width " + player.width + " Enemy Top: " + enemy.top + " Player Top: "+ player.top);
+
+    if  (((posDistance < 0 && leftGaplength < player.width * 2) || (posDistance >0 && rightGaplength < player.width)) 
+        && Math.abs(enemy.row - player.row) < 10)
+        return true;
+    else
+        return false;
+    };
+
     /* This object defines the publicly accessible functions available to
      * developers by creating a global Resources object.
      */
@@ -106,6 +123,9 @@
         load: load,
         get: get,
         onReady: onReady,
-        isReady: isReady
+        isReady: isReady,
+     // added a level property to increase speed
+        gameLevel: 10,
+        isColliding: isColliding,
     };
 })();
